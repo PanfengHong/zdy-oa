@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定义OA协同中台 · 智能办公</title>
+    <!-- 引入 TailwindCSS CDN (play 版本) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 自定义样式（主题变量、动画、粒子等） -->
+    <style>
+        /* ===== CSS 变量 – 双主题 ===== */
+        :root {
+            --transition-speed: 0.6s;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f4f7fe;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.75);
+            --bg-card-hover: rgba(255, 255, 255, 0.95);
+            --bg-glass: rgba(255, 255, 255, 0.40);
+            --border-glass: rgba(255, 255, 255, 0.50);
+            --text-primary: #0b1124;
+            --text-secondary: #2d3a5e;
+            --text-muted: #6a7a9e;
+            --accent-1: #4f46e5;
+            --accent-2: #7c3aed;
+            --accent-3: #06b6d4;
+            --accent-glow: rgba(79, 70, 229, 0.25);
+            --shadow-card: 0 8px 40px rgba(79, 70, 229, 0.08);
+            --shadow-card-hover: 0 16px 60px rgba(79, 70, 229, 0.18);
+            --shadow-glow: 0 0 60px rgba(79, 70, 229, 0.15);
+            --hero-overlay: rgba(244, 247, 254, 0.70);
+            --nav-bg: rgba(255, 255, 255, 0.72);
+            --nav-border: rgba(79, 70, 229, 0.08);
+            --toggle-bg: #e2e8f0;
+            --toggle-dot: #ffffff;
+            --footer-border: rgba(79, 70, 229, 0.06);
+            --particle-color: rgba(79, 70, 229, 0.25);
+            --particle-line: rgba(79, 70, 229, 0.06);
+            --floating-color-1: rgba(79, 70, 229, 0.10);
+            --floating-color-2: rgba(124, 58, 237, 0.08);
+            --floating-color-3: rgba(6, 182, 212, 0.08);
+            --node-bg: rgba(79, 70, 229, 0.06);
+            --node-border: rgba(79, 70, 229, 0.15);
+            --hero-image-bg: radial-gradient(circle at 20% 30%, rgba(79,70,229,0.12) 0%, transparent 60%),
+                             radial-gradient(circle at 80% 70%, rgba(6,182,212,0.12) 0%, transparent 50%),
+                             repeating-linear-gradient(45deg, rgba(79,70,229,0.04) 0px, rgba(79,70,229,0.04) 1px, transparent 1px, transparent 16px),
+                             repeating-linear-gradient(-45deg, rgba(79,70,229,0.04) 0px, rgba(79,70,229,0.04) 1px, transparent 1px, transparent 16px);
+            --hero-image-border: rgba(79,70,229,0.10);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #06080f;
+            --bg-secondary: #0c1020;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-card-hover: rgba(255, 255, 255, 0.08);
+            --bg-glass: rgba(255, 255, 255, 0.04);
+            --border-glass: rgba(255, 255, 255, 0.06);
+            --text-primary: #edf2ff;
+            --text-secondary: #a8b9e0;
+            --text-muted: #5a6e96;
+            --accent-1: #818cf8;
+            --accent-2: #a78bfa;
+            --accent-3: #22d3ee;
+            --accent-glow: rgba(129, 140, 248, 0.20);
+            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.40);
+            --shadow-card-hover: 0 16px 60px rgba(129, 140, 248, 0.12);
+            --shadow-glow: 0 0 80px rgba(129, 140, 248, 0.08);
+            --hero-overlay: rgba(6, 8, 15, 0.75);
+            --nav-bg: rgba(12, 16, 32, 0.75);
+            --nav-border: rgba(129, 140, 248, 0.08);
+            --toggle-bg: #2d3a5e;
+            --toggle-dot: #818cf8;
+            --footer-border: rgba(129, 140, 248, 0.06);
+            --particle-color: rgba(129, 140, 248, 0.20);
+            --particle-line: rgba(129, 140, 248, 0.04);
+            --floating-color-1: rgba(129, 140, 248, 0.06);
+            --floating-color-2: rgba(167, 139, 250, 0.05);
+            --floating-color-3: rgba(34, 211, 238, 0.05);
+            --node-bg: rgba(129, 140, 248, 0.06);
+            --node-border: rgba(129, 140, 248, 0.15);
+            --hero-image-bg: radial-gradient(circle at 20% 30%, rgba(129,140,248,0.10) 0%, transparent 60%),
+                             radial-gradient(circle at 80% 70%, rgba(34,211,238,0.10) 0%, transparent 50%),
+                             repeating-linear-gradient(45deg, rgba(129,140,248,0.05) 0px, rgba(129,140,248,0.05) 1px, transparent 1px, transparent 16px),
+                             repeating-linear-gradient(-45deg, rgba(129,140,248,0.05) 0px, rgba(129,140,248,0.05) 1px, transparent 1px, transparent 16px);
+            --hero-image-border: rgba(129,140,248,0.10);
+        }
+
+        /* ===== 全局重置 & 基础 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== 自定义组件样式（无法用 Tailwind 完全替代） ===== */
+        .theme-toggle {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: var(--toggle-bg);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background var(--transition-speed) ease;
+            flex-shrink: 0;
+            border: none;
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .theme-toggle .dot {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background: var(--toggle-dot);
+            border-radius: 50%;
+            transition: transform var(--transition-speed) cubic-bezier(0.34, 1.56, 0.64, 1), background var(--transition-speed) ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+        }
+
+        [data-theme="dark"] .theme-toggle .dot {
+            transform: translateX(24px);
+        }
+
+        .theme-toggle .icon-wrap {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .theme-toggle .icon-wrap.sun {
+            left: 6px;
+            opacity: 1;
+        }
+        .theme-toggle .icon-wrap.moon {
+            right: 6px;
+            opacity: 0.3;
+        }
+        [data-theme="dark"] .theme-toggle .icon-wrap.sun {
+            opacity: 0.3;
+        }
+        [data-theme="dark"] .theme-toggle .icon-wrap.moon {
+            opacity: 1;
+        }
+
+        /* Hero 粒子画布 */
+        #particleCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* 浮动形状 */
+        .floating-shapes {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatShape 25s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            background: var(--floating-color-1);
+            filter: blur(100px);
+            animation-delay: 0s;
+        }
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            top: 20%;
+            right: 10%;
+            background: var(--floating-color-2);
+            filter: blur(80px);
+            animation-delay: -6s;
+        }
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            bottom: 30%;
+            right: 30%;
+            background: var(--floating-color-3);
+            filter: blur(70px);
+            animation-delay: -12s;
+        }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-30px, -50px) scale(1.1); }
+            66% { transform: translate(20px, 40px) scale(0.9); }
+        }
+
+        /* 右侧科技感图片区域 */
+        .hero-image {
+            background: url('./images/hero-image-light.png') no-repeat center center/cover;
+        }
+
+        [data-theme="dark"] .hero-image {
+            background: url('./images/hero-image-dark.png') no-repeat center center/cover;
+        }
+
+        .hero-image .tech-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent-1);
+            opacity: 0.15;
+            animation: spinRing 30s linear infinite;
+        }
+
+        .hero-image .tech-ring:nth-child(1) {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-color: var(--accent-1);
+            animation-duration: 25s;
+        }
+        .hero-image .tech-ring:nth-child(2) {
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            left: 25%;
+            border-color: var(--accent-2);
+            animation-duration: 20s;
+            animation-direction: reverse;
+        }
+        .hero-image .tech-ring:nth-child(3) {
+            width: 30%;
+            height: 30%;
+            top: 35%;
+            left: 35%;
+            border-color: var(--accent-3);
+            animation-duration: 15s;
+        }
+
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-image .dot-grid span {
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-1);
+            opacity: 0.08;
+            animation: pulseDot 4s infinite alternate;
+        }
+
+        .hero-image .dot-grid span:nth-child(odd) { animation-delay: 0.5s; opacity: 0.12; }
+        .hero-image .dot-grid span:nth-child(3n) { background: var(--accent-2); }
+        .hero-image .dot-grid span:nth-child(5n) { background: var(--accent-3); }
+
+        .hero-image .glow-core {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-1) 0%, transparent 70%);
+            opacity: 0.15;
+            filter: blur(40px);
+            animation: pulseGlow 6s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.4); opacity: 0.25; }
+        }
+
+        .hero-image .line-wave {
+            position: absolute;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
+            opacity: 0.08;
+            animation: waveMove 8s infinite linear;
+        }
+
+        .hero-image .line-wave:nth-child(5) { top: 20%; left: 10%; animation-delay: 0s; }
+        .hero-image .line-wave:nth-child(6) { top: 50%; left: 10%; animation-delay: -2s; width: 70%; }
+        .hero-image .line-wave:nth-child(7) { bottom: 20%; left: 10%; animation-delay: -4s; width: 60%; }
+
+        @keyframes waveMove {
+            0% { transform: translateX(-100%); opacity: 0.05; }
+            50% { opacity: 0.15; }
+            100% { transform: translateX(100%); opacity: 0.05; }
+        }
+
+        /* 脉冲点 */
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        /* 流程节点样式 */
+        .flow-image {
+            background: url('./images/flow-image-light.png') no-repeat center center/cover;
+        }
+
+        .flow-node {
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--node-border);
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+        .flow-node.active {
+            border-color: var(--accent-1);
+            background: var(--node-bg);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .flow-line .dash {
+            width: 40px;
+            height: 2px;
+            background: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-line .dash::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
+            animation: dashMove 2s infinite linear;
+        }
+
+        @keyframes dashMove {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .flow-branch {
+            background: var(--node-bg);
+            border: 1px dashed var(--node-border);
+        }
+
+        .flow-branch .branch-items span {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+        }
+
+        /* 低代码卡片浮动 */
+        .lc-block {
+            animation: floatBlock 4s ease-in-out infinite;
+            transition: all 0.4s ease;
+        }
+        .lc-block:nth-child(2) { animation-delay: 0.5s; }
+        .lc-block:nth-child(3) { animation-delay: 1s; }
+        .lc-block:nth-child(4) { animation-delay: 1.5s; }
+        .lc-block:nth-child(5) { animation-delay: 0.8s; }
+        .lc-block:nth-child(6) { animation-delay: 0.2s; }
+
+        @keyframes floatBlock {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* 滚动触发动画 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.3s; }
+        .reveal-d4 { transition-delay: 0.4s; }
+        .reveal-d5 { transition-delay: 0.5s; }
+
+        /* 文字渐变 */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Footer 链接悬停 */
+        .footer-link-hover:hover {
+            color: var(--accent-1);
+        }
+
+        /* 响应式辅助 */
+        @media (max-width: 768px) {
+            .flow-line .dash {
+                width: 20px;
+                transform: rotate(90deg);
+            }
+            .flow-line {
+                flex-direction: column;
+            }
+            .flow-branch .branch-items {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+
+        /* 固定容器最大宽度 = 1200px */
+        .page-width {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 导航栏 ===== (Tailwind 类混合) -->
+    <nav class="fixed top-0 left-0 right-0 z-[1000] py-4 backdrop-blur-[20px] border-b transition-colors duration-500" style="background:var(--nav-bg); border-color:var(--nav-border);">
+        <div class="page-width flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 font-bold text-xl tracking-tight transition-colors" style="color:var(--text-primary);">
+                <span class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 16px var(--accent-glow);">⚡</span>
+                <span>自定义OA</span>
+            </a>
+
+            <ul class="hidden md:flex items-center gap-8 font-medium text-sm transition-colors" style="color:var(--text-secondary);">
+                <li><a href="#features" class="relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[var(--accent-1)] after:to-[var(--accent-2)] after:transition-all after:duration-300 hover:after:w-full hover:text-[var(--text-primary)]">功能</a></li>
+                <li><a href="#process" class="relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[var(--accent-1)] after:to-[var(--accent-2)] after:transition-all after:duration-300 hover:after:w-full hover:text-[var(--text-primary)]">流程</a></li>
+                <li><a href="#lowcode" class="relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[var(--accent-1)] after:to-[var(--accent-2)] after:transition-all after:duration-300 hover:after:w-full hover:text-[var(--text-primary)]">低代码</a></li>
+                <li><a href="#integration" class="relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[var(--accent-1)] after:to-[var(--accent-2)] after:transition-all after:duration-300 hover:after:w-full hover:text-[var(--text-primary)]">集成</a></li>
+            </ul>
+
+            <div class="flex items-center gap-4">
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <span class="dot"></span>
+                    <span class="icon-wrap sun">☀️</span>
+                    <span class="icon-wrap moon">🌙</span>
+                </button>
+                <button class="md:hidden text-2xl transition-colors" style="color:var(--text-primary);" id="mobileMenuBtn">☰</button>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden flex-col items-center gap-4 py-4 px-6 border-b transition-colors" id="mobileNav" style="background:var(--bg-secondary); border-color:var(--border-glass);">
+            <a href="#features" class="font-medium" style="color:var(--text-secondary);">功能</a>
+            <a href="#process" class="font-medium" style="color:var(--text-secondary);">流程</a>
+            <a href="#lowcode" class="font-medium" style="color:var(--text-secondary);">低代码</a>
+            <a href="#integration" class="font-medium" style="color:var(--text-secondary);">集成</a>
+        </div>
+    </nav>
+
+    <!-- ===== Hero ===== -->
+    <section class="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16 transition-colors duration-500" style="background:var(--bg-primary);">
+        <!-- 粒子 -->
+        <canvas id="particleCanvas"></canvas>
+        <!-- 浮动形状 -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+
+        <div class="page-width w-full relative z-[2] flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+            <!-- 左侧文字 -->
+            <div class="flex-1 max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm border transition-colors" style="background:var(--bg-card); border-color:var(--border-glass); color:var(--text-secondary);">
+                    <span class="w-2 h-2 rounded-full inline-block" style="background:var(--accent-3); animation:pulseDot 2s infinite;"></span>
+                    <span>全新 AI 驱动 · 即刻体验</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mt-6 transition-colors" style="color:var(--text-primary);">
+                    重新定义<br />
+                    <span class="text-gradient" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmerText 6s ease-in-out infinite; background-size:200% 200%;">智能办公</span> 自动化
+                </h1>
+
+                <p class="text-lg mt-4 max-w-lg leading-relaxed transition-colors" style="color:var(--text-secondary);">
+                    融合 AI 与协同技术，让流程审批、文档管理、任务追踪在同一个智能平台上无缝运行，效率提升 300%。
+                </p>
+
+                <div class="flex flex-wrap gap-4 mt-8">
+                    <button class="px-8 py-3.5 rounded-full text-white font-semibold border-none cursor-pointer transition-all duration-300" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 20px var(--accent-glow);">🚀 免费试用</button>
+                    <button class="px-8 py-3.5 rounded-full font-semibold border-2 cursor-pointer transition-all duration-300" style="border-color:var(--text-muted); color:var(--text-primary);">🎥 观看演示</button>
+                </div>
+
+                <div class="flex flex-wrap gap-8 lg:gap-12 pt-8 mt-6 border-t transition-colors" style="border-color:var(--border-glass);">
+                    <div>
+                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="99.9" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>%</span>
+                        <p class="text-sm transition-colors" style="color:var(--text-muted);">系统可用性</p>
+                    </div>
+                    <div>
+                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="300" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>+</span>
+                        <p class="text-sm transition-colors" style="color:var(--text-muted);">企业客户</p>
+                    </div>
+                    <div>
+                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="120" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>万</span>
+                        <p class="text-sm transition-colors" style="color:var(--text-muted);">日活用户</p>
+                    </div>
+                    <div>
+                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="4.8" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>★</span>
+                        <p class="text-sm transition-colors" style="color:var(--text-muted);">用户满意度</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧科技感图片 -->
+            <div class="flex-1 relative min-h-[280px] lg:min-h-[400px] rounded-3xl overflow-hidden hero-image">
+                <div class="tech-ring"></div>
+                <div class="tech-ring"></div>
+                <div class="tech-ring"></div>
+                <div class="glow-core"></div>
+                <div class="line-wave"></div>
+                <div class="line-wave"></div>
+                <div class="line-wave"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Features 概览 ===== -->
+    <section class="py-20 transition-colors" id="features" style="background:var(--bg-secondary);">
+        <div class="page-width">
+            <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold transition-colors" style="color:var(--text-primary);">为现代组织打造的 <span class="text-gradient">智能引擎</span></h2>
+                <p class="text-lg mt-3 transition-colors" style="color:var(--text-secondary);">从流程自动化到数据洞察，一站式覆盖所有办公场景</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d1" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">⚙️</div>
+                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">智能审批流</h3>
+                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">基于 AI 的自动化审批引擎，支持复杂分支与动态路由，审批效率提升 80%。</p>
+                    <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
+                </div>
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d2" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">📄</div>
+                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">协同文档</h3>
+                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">多人实时在线编辑，版本历史追溯，评论 @ 协作，让文档沟通零距离。</p>
+                    <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
+                </div>
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d3" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">🎯</div>
+                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">任务看板</h3>
+                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">可视化任务管理，拖拽式操作，甘特图与燃尽图双视图，进度一目了然。</p>
+                    <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
+                </div>
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d4" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">📊</div>
+                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">数据洞察</h3>
+                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">实时 BI 报表，自定义仪表盘，AI 辅助分析，让数据驱动决策。</p>
+                    <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 流程自动化 ===== -->
+    <section class="py-20 transition-colors" id="process" style="background:var(--bg-primary);">
+        <div class="page-width">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="reveal">
+                    <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-1); background:var(--node-bg); border-color:var(--node-border);">⚡ 核心引擎</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-4 transition-colors" style="color:var(--text-primary);">端到端 <span class="text-gradient">流程自动化</span></h2>
+                    <p class="text-lg mt-4 leading-relaxed transition-colors" style="color:var(--text-secondary);">告别繁琐的纸质流转与邮件审批。可视化设计器让您像搭积木一样构建企业级业务流程，支持条件分支、并行会签与自动超时催办。</p>
+                    <ul class="mt-6 space-y-3">
+                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 拖拽式流程设计，零代码上手</li>
+                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 智能路由与动态审批人匹配</li>
+                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 全链路追踪与效率分析</li>
+                    </ul>
+                </div>
+
+                <div class="flex flex-col items-center gap-4 p-6 rounded-3xl backdrop-blur-sm border transition-all reveal reveal-d2 flow-image min-h-[280px] lg:min-h-[400px]">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 低代码平台 ===== -->
+    <section class="py-20 transition-colors" id="lowcode" style="background:var(--bg-secondary);">
+        <div class="page-width">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="grid grid-cols-2 gap-4 p-6 rounded-3xl backdrop-blur-sm border transition-all reveal" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="lc-block col-span-2 rounded-2xl p-6 text-center text-white border-none" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2));">
+                        <div class="text-4xl">🧩</div>
+                        <h4 class="text-lg font-semibold mt-1" style="color:#fff;">低代码 · 高生产力</h4>
+                        <p class="text-sm" style="color:rgba(255,255,255,0.8);">可视化构建，一键部署</p>
+                    </div>
+                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
+                        <div class="text-3xl">📋</div>
+                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">表单设计</h4>
+                        <p class="text-xs transition-colors" style="color:var(--text-muted);">拖拽字段，联动逻辑</p>
+                    </div>
+                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
+                        <div class="text-3xl">📊</div>
+                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">报表引擎</h4>
+                        <p class="text-xs transition-colors" style="color:var(--text-muted);">多维分析，图表联动</p>
+                    </div>
+                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
+                        <div class="text-3xl">🔗</div>
+                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">API 编排</h4>
+                        <p class="text-xs transition-colors" style="color:var(--text-muted);">集成外部系统数据</p>
+                    </div>
+                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
+                        <div class="text-3xl">⚙️</div>
+                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">自动化规则</h4>
+                        <p class="text-xs transition-colors" style="color:var(--text-muted);">条件触发，批量操作</p>
+                    </div>
+                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
+                        <div class="text-3xl">📱</div>
+                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">移动适配</h4>
+                        <p class="text-xs transition-colors" style="color:var(--text-muted);">响应式，多端协同</p>
+                    </div>
+                </div>
+
+                <div class="reveal reveal-d2">
+                    <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-2); background:var(--node-bg); border-color:var(--node-border);">🛠 敏捷开发</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-4 transition-colors" style="color:var(--text-primary);">低代码 <span class="text-gradient">开发平台</span></h2>
+                    <p class="text-lg mt-4 leading-relaxed transition-colors" style="color:var(--text-secondary);">无需专业编码，业务人员也能快速构建应用。从数据模型到页面交互，全链路可视化配置，将应用交付周期从数月缩短至数天。</p>
+                    <ul class="mt-6 space-y-3">
+                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 可视化数据建模与关联</li>
+                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 页面组件库，灵活布局</li>
+                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 权限与流程无缝集成</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 智能集成 ===== -->
+    <section class="py-20 transition-colors" id="integration" style="background:var(--bg-primary);">
+        <div class="page-width">
+            <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold transition-colors" style="color:var(--text-primary);">无缝 <span class="text-gradient">集成生态</span></h2>
+                <p class="text-lg mt-3 transition-colors" style="color:var(--text-secondary);">连接企业内外部系统，打破数据孤岛，实现自定义协同</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-5">
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d1" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">📧</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">企业邮箱</h4>
+                </div>
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d2" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">💬</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">飞书 / 钉钉</h4>
+                </div>
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d3" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">🗄️</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">ERP / CRM</h4>
+                </div>
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d4" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">☁️</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">云存储</h4>
+                </div>
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d5" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">🤖</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">AI 大模型</h4>
+                </div>
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d1" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">🔐</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">SSO / IAM</h4>
+                </div>
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d2" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">📊</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">BI 工具</h4>
+                </div>
+                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d3" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <span class="text-4xl block mb-2">📱</span>
+                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">企业微信</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer (丰富内容) ===== -->
+    <footer class="border-t transition-colors pt-12 pb-6" style="background:var(--bg-primary); border-color:var(--footer-border);">
+        <div class="page-width">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-8 border-b transition-colors" style="border-color:var(--footer-border);">
+                <!-- 品牌介绍 -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-2.5 font-bold text-xl tracking-tight mb-3 transition-colors" style="color:var(--text-primary);">
+                        <span class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 16px var(--accent-glow);">⚡</span>
+                        <span>自定义OA协同中台</span>
+                    </div>
+                    <p class="text-sm leading-relaxed max-w-sm transition-colors" style="color:var(--text-secondary);">专注企业数字化协同低代码OA平台研发，助力组织降本增效。</p>
+                    <div class="flex gap-4 mt-4">
+                        <a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">隐私政策</a>
+                        <a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">用户协议</a>
+                    </div>
+                </div>
+
+                <!-- 产品中心 -->
+                <div>
+                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3 transition-colors" style="color:var(--text-primary);">产品中心</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">核心功能</a></li>
+                        <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">低代码平台</a></li>
+                        <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">私有化部署</a></li>
+                    </ul>
+                </div>
+
+                <!-- 解决方案 -->
+                <div>
+                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3 transition-colors" style="color:var(--text-primary);">解决方案</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">按行业划分</a></li>
+                        <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">客户案例</a></li>
+                    </ul>
+                </div>
+
+                <!-- 联系我们 -->
+                <div>
+                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3 transition-colors" style="color:var(--text-primary);">联系我们</h5>
+                    <ul class="space-y-2 text-sm" style="color:var(--text-muted);">
+                        <li>📞 400-xxxx-888</li>
+                        <li>✉️ contact@zloa.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 底部版权信息：居中，竖线分隔，年份动态 -->
+            <div class="flex flex-wrap items-center justify-center gap-1 md:gap-3 pt-6 text-xs transition-colors" style="color:var(--text-muted);">
+                <span>© <span id="footerYear"></span> 自定义OA协同中台 版权所有</span>
+                <span class="hidden sm:inline">|</span>
+                <span>沪ICP备xxxxxxxx号</span>
+                <span class="hidden sm:inline">|</span>
+                <a href="#" class="transition-colors footer-link-hover">隐私政策</a>
+                <span class="hidden sm:inline">|</span>
+                <a href="#" class="transition-colors footer-link-hover">用户协议</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JavaScript ===== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // =====================
+            // 1. 主题切换
+            // =====================
+            const toggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            const STORAGE_KEY = 'oa-theme';
+
+            function setTheme(theme) {
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem(STORAGE_KEY, theme);
+            }
+
+            function getStoredTheme() {
+                return localStorage.getItem(STORAGE_KEY) || 'light';
+            }
+
+            setTheme(getStoredTheme());
+
+            toggle.addEventListener('click', function() {
+                const current = html.getAttribute('data-theme');
+                const next = current === 'light' ? 'dark' : 'light';
+                setTheme(next);
+                if (window.particleSystem) {
+                    window.particleSystem.updateColors();
+                }
+            });
+
+            // =====================
+            // 2. 粒子背景 (Canvas)
+            // =====================
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouse = { x: null, y: null };
+            let animationId = null;
+
+            function resizeCanvas() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+            }
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2.5 + 1.2;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.15;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (mouse.x !== null && mouse.y !== null) {
+                        const dx = mouse.x - this.x;
+                        const dy = mouse.y - this.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 150) {
+                            const force = (150 - dist) / 150 * 0.015;
+                            this.x += (dx / dist) * force;
+                            this.y += (dy / dist) * force;
+                        }
+                    }
+                    if (this.x < 0 || this.x > canvas.width) { this.speedX *= -1;
+                        this.x = Math.min(Math.max(this.x, 0), canvas.width); }
+                    if (this.y < 0 || this.y > canvas.height) { this.speedY *= -1;
+                        this.y = Math.min(Math.max(this.y, 0), canvas.height); }
+                }
+                draw() {
+                    const theme = html.getAttribute('data-theme');
+                    const color = theme === 'dark' ? '129, 140, 248' : '79, 70, 229';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${color}, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles(count = 100) {
+                particles = [];
+                for (let i = 0; i < count; i++) particles.push(new Particle());
+            }
+
+            function drawLines() {
+                const theme = html.getAttribute('data-theme');
+                const lineColor = theme === 'dark' ? '129, 140, 248' : '79, 70, 229';
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            const alpha = (1 - dist / 120) * 0.12;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(${lineColor}, ${alpha})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (const p of particles) { p.update();
+                    p.draw(); }
+                drawLines();
+                animationId = requestAnimationFrame(animateParticles);
+            }
+
+            function handleMouseMove(e) {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            }
+
+            function handleMouseLeave() { mouse.x = null;
+                mouse.y = null; }
+
+            const particleSystem = {
+                updateColors: function() {},
+                resize: function() {
+                    resizeCanvas();
+                    for (const p of particles) { p.x = Math.random() * canvas.width;
+                        p.y = Math.random() * canvas.height; }
+                }
+            };
+            window.particleSystem = particleSystem;
+
+            function initCanvas() {
+                resizeCanvas();
+                initParticles(100);
+                if (animationId) cancelAnimationFrame(animationId);
+                animateParticles();
+                canvas.addEventListener('mousemove', handleMouseMove);
+                canvas.addEventListener('mouseleave', handleMouseLeave);
+                let resizeTimer;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => { particleSystem.resize(); }, 200);
+                });
+            }
+
+            if (document.readyState === 'complete') initCanvas();
+            else window.addEventListener('load', initCanvas);
+
+            // =====================
+            // 3. 数字滚动 & Reveal 动画
+            // =====================
+            const observer = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        if (el.classList.contains('count')) {
+                            const target = parseFloat(el.getAttribute('data-target'));
+                            const isFloat = target % 1 !== 0;
+                            const duration = 1800;
+                            const startTime = performance.now();
+
+                            function updateCounter(currentTime) {
+                                const elapsed = currentTime - startTime;
+                                const progress = Math.min(elapsed / duration, 1);
+                                const eased = 1 - Math.pow(1 - progress, 3);
+                                const currentVal = eased * target;
+                                el.textContent = isFloat ? currentVal.toFixed(1) : Math.floor(currentVal);
+                                if (progress < 1) requestAnimationFrame(updateCounter);
+                                else el.textContent = isFloat ? target.toFixed(1) : target;
+                            }
+                            requestAnimationFrame(updateCounter);
+                            observer.unobserve(el);
+                            continue;
+                        }
+                        if (el.classList.contains('reveal')) {
+                            el.classList.add('revealed');
+                            observer.unobserve(el);
+                        }
+                    }
+                }
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.count, .reveal').forEach(el => observer.observe(el));
+
+            // =====================
+            // 4. 移动端菜单
+            // =====================
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            if (mobileBtn && mobileNav) {
+                mobileBtn.addEventListener('click', function() {
+                    mobileNav.classList.toggle('hidden');
+                });
+            }
+
+            document.querySelectorAll('#mobileNav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNav.classList.add('hidden');
+                });
+            });
+
+            // =====================
+            // 5. 动态更新版权年份
+            // =====================
+            const yearSpan = document.getElementById('footerYear');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+        })();
+    </script>
+
+</body>
+</html>
