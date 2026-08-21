@@ -450,6 +450,22 @@
             padding-left: 1.5rem;
             padding-right: 1.5rem;
         }
+
+        .hero-block {
+            background: url('./images/hero-block.webp') center/contain no-repeat;
+        }
+
+        [data-theme="dark"] .hero-block {
+            background: url('./images/hero-block-dark.webp') center/contain no-repeat;
+        }
+
+        .flow-block {
+            background: url('./images/flow-block.webp') center/contain no-repeat;
+        }
+
+        [data-theme="dark"] .flow-block {
+            background: url('./images/flow-block-dark.webp') center/contain no-repeat;
+        }
     </style>
 </head>
 <body>
@@ -498,7 +514,7 @@
             <div class="shape shape-3"></div>
         </div>
 
-        <div class="page-width w-full relative z-[2] flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <div class="page-width min-h-[675px] w-full relative z-[2] flex flex-col lg:flex-row items-center gap-10 lg:gap-16 hero-block">
             <!-- 左侧文字 -->
             <div class="flex-1 max-w-2xl">
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm border transition-colors" style="background:var(--bg-card); border-color:var(--border-glass); color:var(--text-secondary);">
@@ -519,36 +535,6 @@
                     <button class="px-8 py-3.5 rounded-full text-white font-semibold border-none cursor-pointer transition-all duration-300" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 20px var(--accent-glow);">🚀 免费试用</button>
                     <button class="px-8 py-3.5 rounded-full font-semibold border-2 cursor-pointer transition-all duration-300" style="border-color:var(--text-muted); color:var(--text-primary);">🎥 观看演示</button>
                 </div>
-
-                <div class="flex flex-wrap gap-8 lg:gap-12 pt-8 mt-6 border-t transition-colors" style="border-color:var(--border-glass);">
-                    <div>
-                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="99.9" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>%</span>
-                        <p class="text-sm transition-colors" style="color:var(--text-muted);">系统可用性</p>
-                    </div>
-                    <div>
-                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="300" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>+</span>
-                        <p class="text-sm transition-colors" style="color:var(--text-muted);">企业客户</p>
-                    </div>
-                    <div>
-                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="120" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>万</span>
-                        <p class="text-sm transition-colors" style="color:var(--text-muted);">日活用户</p>
-                    </div>
-                    <div>
-                        <span class="text-3xl font-bold" style="color:var(--text-primary);"><span class="count" data-target="4.8" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">0</span>★</span>
-                        <p class="text-sm transition-colors" style="color:var(--text-muted);">用户满意度</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 右侧科技感图片 -->
-            <div class="flex-1 relative min-h-[280px] lg:min-h-[400px] rounded-3xl overflow-hidden hero-image">
-                <div class="tech-ring"></div>
-                <div class="tech-ring"></div>
-                <div class="tech-ring"></div>
-                <div class="glow-core"></div>
-                <div class="line-wave"></div>
-                <div class="line-wave"></div>
-                <div class="line-wave"></div>
             </div>
         </div>
     </section>
@@ -591,9 +577,9 @@
     </section>
 
     <!-- ===== 流程自动化 ===== -->
-    <section class="py-20 transition-colors" id="process" style="background:var(--bg-primary);">
+    <section class="py-20 transition-colors min-h-[500px]" id="process" style="background:var(--bg-primary);">
         <div class="page-width">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center flow-block min-h-[675px]">
                 <div class="reveal">
                     <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-1); background:var(--node-bg); border-color:var(--node-border);">⚡ 核心引擎</span>
                     <h2 class="text-3xl md:text-4xl font-bold mt-4 transition-colors" style="color:var(--text-primary);">端到端 <span class="text-gradient">流程自动化</span></h2>
@@ -603,10 +589,6 @@
                         <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 智能路由与动态审批人匹配</li>
                         <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 全链路追踪与效率分析</li>
                     </ul>
-                </div>
-
-                <div class="flex flex-col items-center gap-4 p-6 rounded-3xl backdrop-blur-sm border transition-all reveal reveal-d2 flow-image min-h-[280px] lg:min-h-[400px]">
-                    
                 </div>
             </div>
         </div>
