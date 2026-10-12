@@ -455,6 +455,14 @@
         [data-theme="dark"] .flow-block {
             background: url('./images/flow-block-dark.webp') center/contain no-repeat;
         }
+
+        .low-code-block {
+            background: url('./images/low-code-block.webp') center/contain no-repeat;
+        }
+
+        [data-theme="dark"] .low-code-block {
+            background: url('./images/low-code-block-dark.webp') center/contain no-repeat;
+        }
     </style>
 </head>
 <body>
@@ -586,41 +594,8 @@
     <!-- ===== 低代码平台 ===== -->
     <section class="py-20 transition-colors" id="lowcode" style="background:var(--bg-secondary);">
         <div class="page-width">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                <div class="grid grid-cols-2 gap-4 p-6 rounded-3xl backdrop-blur-sm border transition-all reveal" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <div class="lc-block col-span-2 rounded-2xl p-6 text-center text-white border-none" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2));">
-                        <div class="text-4xl">🧩</div>
-                        <h4 class="text-lg font-semibold mt-1" style="color:#fff;">低代码 · 高生产力</h4>
-                        <p class="text-sm" style="color:rgba(255,255,255,0.8);">可视化构建，一键部署</p>
-                    </div>
-                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
-                        <div class="text-3xl">📋</div>
-                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">表单设计</h4>
-                        <p class="text-xs transition-colors" style="color:var(--text-muted);">拖拽字段，联动逻辑</p>
-                    </div>
-                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
-                        <div class="text-3xl">📊</div>
-                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">报表引擎</h4>
-                        <p class="text-xs transition-colors" style="color:var(--text-muted);">多维分析，图表联动</p>
-                    </div>
-                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
-                        <div class="text-3xl">🔗</div>
-                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">API 编排</h4>
-                        <p class="text-xs transition-colors" style="color:var(--text-muted);">集成外部系统数据</p>
-                    </div>
-                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
-                        <div class="text-3xl">⚙️</div>
-                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">自动化规则</h4>
-                        <p class="text-xs transition-colors" style="color:var(--text-muted);">条件触发，批量操作</p>
-                    </div>
-                    <div class="lc-block rounded-2xl p-5 text-center border transition-colors" style="background:var(--bg-secondary); border-color:var(--border-glass);">
-                        <div class="text-3xl">📱</div>
-                        <h4 class="font-semibold mt-1 transition-colors" style="color:var(--text-primary);">移动适配</h4>
-                        <p class="text-xs transition-colors" style="color:var(--text-muted);">响应式，多端协同</p>
-                    </div>
-                </div>
-
-                <div class="reveal reveal-d2">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center low-code-block min-h-[675px]">
+                <div class="reveal reveal-d2 lg:col-start-2">
                     <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-2); background:var(--node-bg); border-color:var(--node-border);">🛠 敏捷开发</span>
                     <h2 class="text-3xl md:text-4xl font-bold mt-4 transition-colors" style="color:var(--text-primary);">低代码 <span class="text-gradient">开发平台</span></h2>
                     <p class="text-lg mt-4 leading-relaxed transition-colors" style="color:var(--text-secondary);">无需专业编码，业务人员也能快速构建应用。从数据模型到页面交互，全链路可视化配置，将应用交付周期从数月缩短至数天。</p>
