@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>自定义OA协同中台 · 智能办公</title>
     <!-- 引入 TailwindCSS CDN (play 版本) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 自定义样式（主题变量、动画、粒子等） -->
+    <!-- 自定义样式（主题变量、动画、界面模型） -->
     <style>
-        /* ===== CSS 变量 – 双主题 ===== */
+        /* ===== CSS 变量 – 仅浅色主题 ===== */
         :root {
             --transition-speed: 0.6s;
-        }
-
-        [data-theme="light"] {
-            --bg-primary: #f4f7fe;
+            --bg-primary: #f4f8fc;
             --bg-secondary: #ffffff;
             --bg-card: rgba(255, 255, 255, 0.75);
             --bg-card-hover: rgba(255, 255, 255, 0.95);
@@ -23,68 +20,23 @@
             --text-primary: #0b1124;
             --text-secondary: #2d3a5e;
             --text-muted: #6a7a9e;
-            --accent-1: #4f46e5;
-            --accent-2: #7c3aed;
+            --accent-1: #2b7cff;
+            --accent-2: #1663d9;
             --accent-3: #06b6d4;
-            --accent-glow: rgba(79, 70, 229, 0.25);
-            --shadow-card: 0 8px 40px rgba(79, 70, 229, 0.08);
-            --shadow-card-hover: 0 16px 60px rgba(79, 70, 229, 0.18);
-            --shadow-glow: 0 0 60px rgba(79, 70, 229, 0.15);
-            --hero-overlay: rgba(244, 247, 254, 0.70);
+            --accent-glow: rgba(43, 124, 255, 0.25);
+            --shadow-card: 0 8px 40px rgba(43, 124, 255, 0.08);
+            --shadow-card-hover: 0 16px 60px rgba(43, 124, 255, 0.18);
+            --shadow-glow: 0 0 60px rgba(43, 124, 255, 0.15);
             --nav-bg: rgba(255, 255, 255, 0.72);
-            --nav-border: rgba(79, 70, 229, 0.08);
-            --toggle-bg: #e2e8f0;
-            --toggle-dot: #ffffff;
-            --footer-border: rgba(79, 70, 229, 0.06);
-            --particle-color: rgba(79, 70, 229, 0.25);
-            --particle-line: rgba(79, 70, 229, 0.06);
-            --floating-color-1: rgba(79, 70, 229, 0.10);
-            --floating-color-2: rgba(124, 58, 237, 0.08);
+            --nav-border: rgba(43, 124, 255, 0.08);
+            --footer-border: rgba(43, 124, 255, 0.06);
+            --particle-color: rgba(43, 124, 255, 0.25);
+            --particle-line: rgba(43, 124, 255, 0.06);
+            --floating-color-1: rgba(43, 124, 255, 0.10);
+            --floating-color-2: rgba(22, 99, 217, 0.08);
             --floating-color-3: rgba(6, 182, 212, 0.08);
-            --node-bg: rgba(79, 70, 229, 0.06);
-            --node-border: rgba(79, 70, 229, 0.15);
-            --hero-image-bg: radial-gradient(circle at 20% 30%, rgba(79,70,229,0.12) 0%, transparent 60%),
-                             radial-gradient(circle at 80% 70%, rgba(6,182,212,0.12) 0%, transparent 50%),
-                             repeating-linear-gradient(45deg, rgba(79,70,229,0.04) 0px, rgba(79,70,229,0.04) 1px, transparent 1px, transparent 16px),
-                             repeating-linear-gradient(-45deg, rgba(79,70,229,0.04) 0px, rgba(79,70,229,0.04) 1px, transparent 1px, transparent 16px);
-            --hero-image-border: rgba(79,70,229,0.10);
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #06080f;
-            --bg-secondary: #0c1020;
-            --bg-card: rgba(255, 255, 255, 0.04);
-            --bg-card-hover: rgba(255, 255, 255, 0.08);
-            --bg-glass: rgba(255, 255, 255, 0.04);
-            --border-glass: rgba(255, 255, 255, 0.06);
-            --text-primary: #edf2ff;
-            --text-secondary: #a8b9e0;
-            --text-muted: #5a6e96;
-            --accent-1: #818cf8;
-            --accent-2: #a78bfa;
-            --accent-3: #22d3ee;
-            --accent-glow: rgba(129, 140, 248, 0.20);
-            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.40);
-            --shadow-card-hover: 0 16px 60px rgba(129, 140, 248, 0.12);
-            --shadow-glow: 0 0 80px rgba(129, 140, 248, 0.08);
-            --hero-overlay: rgba(6, 8, 15, 0.75);
-            --nav-bg: rgba(12, 16, 32, 0.75);
-            --nav-border: rgba(129, 140, 248, 0.08);
-            --toggle-bg: #2d3a5e;
-            --toggle-dot: #818cf8;
-            --footer-border: rgba(129, 140, 248, 0.06);
-            --particle-color: rgba(129, 140, 248, 0.20);
-            --particle-line: rgba(129, 140, 248, 0.04);
-            --floating-color-1: rgba(129, 140, 248, 0.06);
-            --floating-color-2: rgba(167, 139, 250, 0.05);
-            --floating-color-3: rgba(34, 211, 238, 0.05);
-            --node-bg: rgba(129, 140, 248, 0.06);
-            --node-border: rgba(129, 140, 248, 0.15);
-            --hero-image-bg: radial-gradient(circle at 20% 30%, rgba(129,140,248,0.10) 0%, transparent 60%),
-                             radial-gradient(circle at 80% 70%, rgba(34,211,238,0.10) 0%, transparent 50%),
-                             repeating-linear-gradient(45deg, rgba(129,140,248,0.05) 0px, rgba(129,140,248,0.05) 1px, transparent 1px, transparent 16px),
-                             repeating-linear-gradient(-45deg, rgba(129,140,248,0.05) 0px, rgba(129,140,248,0.05) 1px, transparent 1px, transparent 16px);
-            --hero-image-border: rgba(129,140,248,0.10);
+            --node-bg: rgba(43, 124, 255, 0.06);
+            --node-border: rgba(43, 124, 255, 0.15);
         }
 
         /* ===== 全局重置 & 基础 ===== */
@@ -99,10 +51,9 @@
         }
 
         body {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -112,61 +63,7 @@
             color: inherit;
         }
 
-        /* ===== 自定义组件样式（无法用 Tailwind 完全替代） ===== */
-        .theme-toggle {
-            position: relative;
-            width: 52px;
-            height: 28px;
-            background: var(--toggle-bg);
-            border-radius: 40px;
-            cursor: pointer;
-            transition: background var(--transition-speed) ease;
-            flex-shrink: 0;
-            border: none;
-            outline: none;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
-        }
-
-        .theme-toggle .dot {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 22px;
-            height: 22px;
-            background: var(--toggle-dot);
-            border-radius: 50%;
-            transition: transform var(--transition-speed) cubic-bezier(0.34, 1.56, 0.64, 1), background var(--transition-speed) ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
-        }
-
-        [data-theme="dark"] .theme-toggle .dot {
-            transform: translateX(24px);
-        }
-
-        .theme-toggle .icon-wrap {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 13px;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .theme-toggle .icon-wrap.sun {
-            left: 6px;
-            opacity: 1;
-        }
-        .theme-toggle .icon-wrap.moon {
-            right: 6px;
-            opacity: 0.3;
-        }
-        [data-theme="dark"] .theme-toggle .icon-wrap.sun {
-            opacity: 0.3;
-        }
-        [data-theme="dark"] .theme-toggle .icon-wrap.moon {
-            opacity: 1;
-        }
-
-        /* Hero 粒子画布 */
+        /* ===== Hero 粒子画布 ===== */
         #particleCanvas {
             position: absolute;
             inset: 0;
@@ -177,7 +74,7 @@
             opacity: 0.6;
         }
 
-        /* 浮动形状 */
+        /* ===== 浮动形状 ===== */
         .floating-shapes {
             position: absolute;
             inset: 0;
@@ -227,47 +124,24 @@
             66% { transform: translate(20px, 40px) scale(0.9); }
         }
 
-        /* 右侧科技感图片区域 */
-        .hero-image .tech-ring {
+        /* ===== 装饰：科技感圆环 / 点阵 / 光核 / 波纹线 ===== */
+        .tech-ring {
             position: absolute;
             border-radius: 50%;
             border: 1.5px solid var(--accent-1);
             opacity: 0.15;
             animation: spinRing 30s linear infinite;
         }
-
-        .hero-image .tech-ring:nth-child(1) {
-            width: 70%;
-            height: 70%;
-            top: 15%;
-            left: 15%;
-            border-color: var(--accent-1);
-            animation-duration: 25s;
-        }
-        .hero-image .tech-ring:nth-child(2) {
-            width: 50%;
-            height: 50%;
-            top: 25%;
-            left: 25%;
-            border-color: var(--accent-2);
-            animation-duration: 20s;
-            animation-direction: reverse;
-        }
-        .hero-image .tech-ring:nth-child(3) {
-            width: 30%;
-            height: 30%;
-            top: 35%;
-            left: 35%;
-            border-color: var(--accent-3);
-            animation-duration: 15s;
-        }
+        .tech-ring.r1 { width: 70%; height: 70%; top: 15%; left: 15%; border-color: var(--accent-1); animation-duration: 25s; }
+        .tech-ring.r2 { width: 50%; height: 50%; top: 25%; left: 25%; border-color: var(--accent-2); animation-duration: 20s; animation-direction: reverse; }
+        .tech-ring.r3 { width: 30%; height: 30%; top: 35%; left: 35%; border-color: var(--accent-3); animation-duration: 15s; }
 
         @keyframes spinRing {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .hero-image .dot-grid span {
+        .dot-grid span {
             display: block;
             width: 6px;
             height: 6px;
@@ -276,12 +150,11 @@
             opacity: 0.08;
             animation: pulseDot 4s infinite alternate;
         }
+        .dot-grid span:nth-child(odd) { animation-delay: 0.5s; opacity: 0.12; }
+        .dot-grid span:nth-child(3n) { background: var(--accent-2); }
+        .dot-grid span:nth-child(5n) { background: var(--accent-3); }
 
-        .hero-image .dot-grid span:nth-child(odd) { animation-delay: 0.5s; opacity: 0.12; }
-        .hero-image .dot-grid span:nth-child(3n) { background: var(--accent-2); }
-        .hero-image .dot-grid span:nth-child(5n) { background: var(--accent-3); }
-
-        .hero-image .glow-core {
+        .glow-core {
             position: absolute;
             width: 120px;
             height: 120px;
@@ -297,18 +170,16 @@
             50% { transform: scale(1.4); opacity: 0.25; }
         }
 
-        .hero-image .line-wave {
+        .line-wave {
             position: absolute;
-            width: 80%;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
             opacity: 0.08;
             animation: waveMove 8s infinite linear;
         }
-
-        .hero-image .line-wave:nth-child(5) { top: 20%; left: 10%; animation-delay: 0s; }
-        .hero-image .line-wave:nth-child(6) { top: 50%; left: 10%; animation-delay: -2s; width: 70%; }
-        .hero-image .line-wave:nth-child(7) { bottom: 20%; left: 10%; animation-delay: -4s; width: 60%; }
+        .line-wave.w1 { top: 20%; left: 10%; width: 80%; animation-delay: 0s; }
+        .line-wave.w2 { top: 50%; left: 10%; width: 70%; animation-delay: -2s; }
+        .line-wave.w3 { bottom: 20%; left: 10%; width: 60%; animation-delay: -4s; }
 
         @keyframes waveMove {
             0% { transform: translateX(-100%); opacity: 0.05; }
@@ -316,63 +187,388 @@
             100% { transform: translateX(100%); opacity: 0.05; }
         }
 
-        /* 脉冲点 */
         @keyframes pulseDot {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.4; transform: scale(0.8); }
         }
 
-        /* 流程节点样式 */
-
-        .flow-node {
-            background: var(--bg-secondary);
-            border: 1.5px solid var(--node-border);
-            transition: all 0.3s ease;
-            color: var(--text-primary);
+        /* ===== Hero 视觉区（CSS 绘制的界面模型） ===== */
+        .hero-visual {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            aspect-ratio: 1 / 0.92;
+            margin: 0 auto;
         }
-        .flow-node.active {
+
+        .hero-visual .dot-grid {
+            position: absolute;
+            inset: 6% 4%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 18px;
+            z-index: 0;
+        }
+        .hero-visual .glow-core { top: 8%; left: 6%; }
+        .hero-visual .tech-ring { z-index: 0; }
+
+        .mock-window {
+            position: absolute;
+            z-index: 2;
+            top: 10%;
+            left: 6%;
+            width: 82%;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(43, 124, 255, 0.10);
+            border-radius: 18px;
+            box-shadow: var(--shadow-card-hover), 0 0 80px var(--shadow-glow);
+            overflow: hidden;
+            animation: floatSoft 7s ease-in-out infinite;
+        }
+
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .mock-titlebar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: linear-gradient(180deg, #f5faff, #eef6fd);
+            border-bottom: 1px solid rgba(43, 124, 255, 0.08);
+        }
+        .mock-titlebar .tb-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .mock-titlebar .tb-dot:nth-child(1) { background: #ff5f57; }
+        .mock-titlebar .tb-dot:nth-child(2) { background: #febc2e; }
+        .mock-titlebar .tb-dot:nth-child(3) { background: #28c840; }
+        .mock-titlebar .tb-url {
+            flex: 1;
+            max-width: 260px;
+            margin-left: 8px;
+            padding: 3px 12px;
+            border-radius: 999px;
+            background: var(--bg-primary);
+            border: 1px solid rgba(43, 124, 255, 0.10);
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .mock-body {
+            display: flex;
+            min-height: 250px;
+        }
+
+        .mock-sidebar {
+            width: 52px;
+            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-primary);
+            border-right: 1px solid rgba(43, 124, 255, 0.08);
+        }
+        .mock-sidebar .side-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: rgba(43, 124, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+        .mock-sidebar .side-icon.active {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .mock-main {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mock-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 90px;
+            padding: 12px 14px 0;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(43, 124, 255, 0.05), rgba(6, 182, 212, 0.04));
+        }
+        .mock-chart .bar {
+            flex: 1;
+            border-radius: 6px 6px 0 0;
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+            opacity: 0.75;
+            transform-origin: bottom;
+            animation: barGrow 3.2s ease-in-out infinite alternate;
+        }
+        .mock-chart .bar:nth-child(3) { opacity: 0.9; }
+        .mock-chart .bar:nth-child(3n) { background: linear-gradient(180deg, var(--accent-3), var(--accent-1)); }
+
+        @keyframes barGrow {
+            from { transform: scaleY(0.55); }
+            to { transform: scaleY(1); }
+        }
+
+        .mock-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .mock-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: var(--bg-primary);
+            border: 1px solid rgba(43, 124, 255, 0.07);
+        }
+        .mock-row .avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .mock-row .avatar.a1 { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); }
+        .mock-row .avatar.a2 { background: linear-gradient(135deg, var(--accent-3), var(--accent-1)); }
+        .mock-row .avatar.a3 { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); }
+        .mock-row .line {
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(43, 124, 255, 0.12);
+        }
+        .mock-row .line.l1 { width: 55%; }
+        .mock-row .line.l2 { width: 70%; }
+        .mock-row .line.l3 { width: 45%; }
+        .mock-row .pill {
+            margin-left: auto;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+        }
+
+        .float-card {
+            position: absolute;
+            z-index: 3;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(43, 124, 255, 0.12);
+            border-radius: 14px;
+            box-shadow: var(--shadow-card-hover);
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: floatCard 5s ease-in-out infinite;
+        }
+        .float-card .fc-sub {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+        .fc-approve {
+            top: 4%;
+            right: 0;
+            animation-delay: 0.4s;
+        }
+        .fc-stat {
+            bottom: 2%;
+            left: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            animation-delay: 1.6s;
+        }
+        .fc-stat .fc-num {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* ===== 流程视觉区 ===== */
+        .flow-visual {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            padding: 28px 24px;
+            margin: 0 auto;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(43, 124, 255, 0.10);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-primary);
+            border: 1.5px solid var(--node-border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            transition: all 0.3s ease;
+        }
+        .flow-step.active {
             border-color: var(--accent-1);
             background: var(--node-bg);
             box-shadow: 0 0 30px var(--accent-glow);
         }
+        .flow-step .step-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            color: #fff;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            box-shadow: 0 4px 14px var(--accent-glow);
+        }
+        .flow-step .step-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+        .flow-step .step-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .flow-step .step-badge {
+            margin-left: auto;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+        }
 
-        .flow-line .dash {
-            width: 40px;
-            height: 2px;
-            background: var(--text-muted);
+        .flow-connector {
             position: relative;
+            width: 2px;
+            height: 34px;
+            margin-left: 42px;
+            background: rgba(43, 124, 255, 0.15);
             overflow: hidden;
         }
-
-        .flow-line .dash::after {
+        .flow-connector::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
+            top: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
-            animation: dashMove 2s infinite linear;
+            background: linear-gradient(180deg, transparent, var(--accent-1), transparent);
+            animation: dashFlow 2s infinite linear;
         }
 
-        @keyframes dashMove {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        @keyframes dashFlow {
+            0% { top: -100%; }
+            100% { top: 100%; }
         }
 
         .flow-branch {
+            margin-left: 42px;
+            padding: 12px 16px;
+            border-radius: 14px;
             background: var(--node-bg);
             border: 1px dashed var(--node-border);
         }
-
+        .flow-branch .branch-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--accent-2);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .flow-branch .branch-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
         .flow-branch .branch-items span {
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 12px;
             background: var(--bg-card);
-            border: 1px solid var(--border-glass);
+            border: 1px solid var(--node-border);
             color: var(--text-secondary);
         }
 
-        /* 低代码卡片浮动 */
+        /* ===== 低代码视觉区 ===== */
+        .lc-visual {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .lc-canvas {
+            position: relative;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(43, 124, 255, 0.10);
+            box-shadow: var(--shadow-card-hover);
+            padding: 22px;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 18px;
+            min-height: 320px;
+        }
+
+        .lc-palette {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .lc-palette .pal-title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
         .lc-block {
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: var(--bg-primary);
+            border: 1px solid rgba(43, 124, 255, 0.10);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
             animation: floatBlock 4s ease-in-out infinite;
             transition: all 0.4s ease;
         }
@@ -381,13 +577,203 @@
         .lc-block:nth-child(4) { animation-delay: 1.5s; }
         .lc-block:nth-child(5) { animation-delay: 0.8s; }
         .lc-block:nth-child(6) { animation-delay: 0.2s; }
-
-        @keyframes floatBlock {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+        .lc-block:hover {
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            box-shadow: 0 8px 24px var(--accent-glow);
         }
 
-        /* 滚动触发动画 */
+        @keyframes floatBlock {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .lc-stage {
+            position: relative;
+            border-radius: 14px;
+            border: 1.5px dashed rgba(43, 124, 255, 0.25);
+            background:
+                radial-gradient(circle at 20% 30%, rgba(43,124,255,0.06) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(6,182,212,0.06) 0%, transparent 50%);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .lc-stage .stage-card {
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(43, 124, 255, 0.12);
+            box-shadow: var(--shadow-card);
+            padding: 14px 16px;
+        }
+        .lc-stage .stage-card .sc-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        .lc-stage .stage-card .sc-head .sc-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-3);
+        }
+        .lc-stage .stage-card .sc-body {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .lc-stage .stage-card .sc-line {
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(43, 124, 255, 0.10);
+        }
+        .lc-stage .stage-card .sc-line.s1 { width: 85%; }
+        .lc-stage .stage-card .sc-line.s2 { width: 65%; }
+        .lc-stage .stage-card .sc-line.s3 { width: 75%; }
+
+        .lc-cursor-card {
+            position: absolute;
+            z-index: 3;
+            right: -6px;
+            bottom: -18px;
+            padding: 9px 14px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: floatCard 5s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        /* ===== AI 视觉区 ===== */
+        .ai-visual {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .ai-net {
+            position: absolute;
+            inset: -7% -5%;
+            width: 110%;
+            height: 114%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .ai-panel {
+            position: relative;
+            z-index: 1;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(43, 124, 255, 0.10);
+            border-radius: 20px;
+            box-shadow: var(--shadow-card-hover);
+            overflow: hidden;
+            animation: floatSoft 7s ease-in-out infinite;
+        }
+
+        .ai-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(43, 124, 255, 0.08);
+            background: linear-gradient(180deg, #f5faff, #eef6fd);
+        }
+        .ai-head .ai-logo {
+            color: var(--accent-1);
+            display: flex;
+            align-items: center;
+        }
+        .ai-head .ai-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        .ai-head .ai-status {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .ai-head .ai-status i {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulseDot 2s infinite;
+        }
+
+        .ai-chat {
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 240px;
+        }
+        .bubble {
+            max-width: 88%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .bubble.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .bubble.ai {
+            align-self: flex-start;
+            background: var(--bg-primary);
+            border: 1px solid rgba(43, 124, 255, 0.12);
+            color: var(--text-secondary);
+            border-bottom-left-radius: 4px;
+        }
+        .bubble.ai .ai-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-1);
+        }
+
+        .ai-chips {
+            padding: 0 20px 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .ai-chips span {
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            color: var(--accent-2);
+            background: var(--node-bg);
+            border: 1px solid var(--node-border);
+            transition: all 0.25s ease;
+        }
+        .ai-chips span:hover {
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+        }
+
+        /* ===== 滚动触发动画 ===== */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -411,24 +797,14 @@
             background-clip: text;
         }
 
+        @keyframes shimmerText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
         /* Footer 链接悬停 */
         .footer-link-hover:hover {
             color: var(--accent-1);
-        }
-
-        /* 响应式辅助 */
-        @media (max-width: 768px) {
-            .flow-line .dash {
-                width: 20px;
-                transform: rotate(90deg);
-            }
-            .flow-line {
-                flex-direction: column;
-            }
-            .flow-branch .branch-items {
-                flex-direction: column;
-                gap: 8px;
-            }
         }
 
         /* 固定容器最大宽度 = 1200px */
@@ -440,42 +816,31 @@
             padding-right: 1.5rem;
         }
 
-        .hero-block {
-            background: url('./images/hero-block.webp') center/contain no-repeat;
-        }
-
-        [data-theme="dark"] .hero-block {
-            background: url('./images/hero-block-dark.webp') center/contain no-repeat;
-        }
-
-        .flow-block {
-            background: url('./images/flow-block.webp') center/contain no-repeat;
-        }
-
-        [data-theme="dark"] .flow-block {
-            background: url('./images/flow-block-dark.webp') center/contain no-repeat;
-        }
-
-        .low-code-block {
-            background: url('./images/low-code-block.webp') center/contain no-repeat;
-        }
-
-        [data-theme="dark"] .low-code-block {
-            background: url('./images/low-code-block-dark.webp') center/contain no-repeat;
+        /* 响应式辅助 */
+        @media (max-width: 768px) {
+            .hero-visual {
+                max-width: 440px;
+            }
+            .mock-body {
+                min-height: 200px;
+            }
+            .lc-cursor-card {
+                right: 4px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== 导航栏 ===== (Tailwind 类混合) -->
-    <nav class="fixed top-0 left-0 right-0 z-[1000] py-4 backdrop-blur-[20px] border-b transition-colors duration-500" style="background:var(--nav-bg); border-color:var(--nav-border);">
+    <!-- ===== 导航栏 ===== -->
+    <nav class="fixed top-0 left-0 right-0 z-[1000] py-4 backdrop-blur-[20px] border-b" style="background:var(--nav-bg); border-color:var(--nav-border);">
         <div class="page-width flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2.5 font-bold text-xl tracking-tight transition-colors" style="color:var(--text-primary);">
-                <span class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 16px var(--accent-glow);">⚡</span>
+            <a href="#" class="flex items-center gap-2.5 font-bold text-xl tracking-tight" style="color:var(--text-primary);">
+                <span class="flex items-center" style="color:var(--accent-1);"><svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path fill="#2b7cff" fill-opacity=".12" d="M12 2.5 8.4 4.5 12 6.5 15.6 4.5Z"/><path fill="#2b7cff" fill-opacity=".12" d="M7.5 5 3.9 7 7.5 9 11.1 7Z"/><path fill="#2b7cff" fill-opacity=".12" d="M16.5 5 12.9 7 16.5 9 20.1 7Z"/><path fill="#2b7cff" fill-opacity=".12" d="M12 7.5 8.4 9.5 12 11.5 15.6 9.5Z"/><path d="M3.5 7.5 7.1 9.5 7.1 13.5 3.5 11.5Z"/><path d="M8 10 11.6 12 11.6 16 8 14Z"/><path d="M3.5 12.5 7.1 14.5 7.1 18.5 3.5 16.5Z"/><path d="M8 15 11.6 17 11.6 21 8 19Z"/><path d="M20.6 7.5 16.9 9.5 16.9 13.5 20.6 11.5Z"/><path d="M16.1 10 12.4 12 12.4 16 16.1 14Z"/><path d="M20.6 12.5 16.9 14.5 16.9 18.5 20.6 16.5Z"/><path d="M16.1 15 12.4 17 12.4 21 16.1 19Z"/></svg></span>
                 <span>自定义OA</span>
             </a>
 
-            <ul class="hidden md:flex items-center gap-8 font-medium text-sm transition-colors" style="color:var(--text-secondary);">
+            <ul class="hidden md:flex items-center gap-8 font-medium text-sm" style="color:var(--text-secondary);">
                 <li><a href="#features" class="relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[var(--accent-1)] after:to-[var(--accent-2)] after:transition-all after:duration-300 hover:after:w-full hover:text-[var(--text-primary)]">功能</a></li>
                 <li><a href="#process" class="relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[var(--accent-1)] after:to-[var(--accent-2)] after:transition-all after:duration-300 hover:after:w-full hover:text-[var(--text-primary)]">流程</a></li>
                 <li><a href="#lowcode" class="relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[var(--accent-1)] after:to-[var(--accent-2)] after:transition-all after:duration-300 hover:after:w-full hover:text-[var(--text-primary)]">低代码</a></li>
@@ -483,16 +848,11 @@
             </ul>
 
             <div class="flex items-center gap-4">
-                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
-                    <span class="dot"></span>
-                    <span class="icon-wrap sun">☀️</span>
-                    <span class="icon-wrap moon">🌙</span>
-                </button>
-                <button class="md:hidden text-2xl transition-colors" style="color:var(--text-primary);" id="mobileMenuBtn">☰</button>
+                <button class="md:hidden" style="color:var(--text-primary);" id="mobileMenuBtn" aria-label="打开菜单"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg></button>
             </div>
         </div>
         <!-- 移动端菜单 -->
-        <div class="md:hidden hidden flex-col items-center gap-4 py-4 px-6 border-b transition-colors" id="mobileNav" style="background:var(--bg-secondary); border-color:var(--border-glass);">
+        <div class="md:hidden hidden flex-col items-center gap-4 py-4 px-6 border-b" id="mobileNav" style="background:var(--bg-secondary); border-color:var(--border-glass);">
             <a href="#features" class="font-medium" style="color:var(--text-secondary);">功能</a>
             <a href="#process" class="font-medium" style="color:var(--text-secondary);">流程</a>
             <a href="#lowcode" class="font-medium" style="color:var(--text-secondary);">低代码</a>
@@ -501,7 +861,7 @@
     </nav>
 
     <!-- ===== Hero ===== -->
-    <section class="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16 transition-colors duration-500" style="background:var(--bg-primary);">
+    <section class="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16" style="background:var(--bg-primary);">
         <!-- 粒子 -->
         <canvas id="particleCanvas"></canvas>
         <!-- 浮动形状 -->
@@ -511,62 +871,141 @@
             <div class="shape shape-3"></div>
         </div>
 
-        <div class="page-width min-h-[675px] w-full relative z-[2] flex flex-col lg:flex-row items-center gap-10 lg:gap-16 hero-block">
+        <div class="page-width w-full relative z-[2] flex flex-col lg:flex-row items-center gap-14 lg:gap-16">
             <!-- 左侧文字 -->
             <div class="flex-1 max-w-2xl">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm border transition-colors" style="background:var(--bg-card); border-color:var(--border-glass); color:var(--text-secondary);">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm border" style="background:var(--bg-card); border-color:var(--border-glass); color:var(--text-secondary);">
                     <span class="w-2 h-2 rounded-full inline-block" style="background:var(--accent-3); animation:pulseDot 2s infinite;"></span>
                     <span>全新 AI 驱动 · 即刻体验</span>
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mt-6 transition-colors" style="color:var(--text-primary);">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mt-6" style="color:var(--text-primary);">
                     重新定义<br />
                     <span class="text-gradient" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmerText 6s ease-in-out infinite; background-size:200% 200%;">智能办公</span> 自动化
                 </h1>
 
-                <p class="text-lg mt-4 max-w-lg leading-relaxed transition-colors" style="color:var(--text-secondary);">
+                <p class="text-lg mt-4 max-w-lg leading-relaxed" style="color:var(--text-secondary);">
                     融合 AI 与协同技术，让流程审批、文档管理、任务追踪在同一个智能平台上无缝运行，效率提升 300%。
                 </p>
 
                 <div class="flex flex-wrap gap-4 mt-8">
-                    <button class="px-8 py-3.5 rounded-full text-white font-semibold border-none cursor-pointer transition-all duration-300" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 20px var(--accent-glow);"><a href="/oa-main" target="_blank">🚀 免费试用</a></button>
-                    <button class="px-8 py-3.5 rounded-full font-semibold border-2 cursor-pointer transition-all duration-300" style="border-color:var(--text-muted); color:var(--text-primary);">🎥 观看演示</button>
+                    <button class="px-8 py-3.5 rounded-full text-white font-semibold border-none cursor-pointer transition-all duration-300 hover:shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 20px var(--accent-glow);"><a href="/oa-main" target="_blank" class="inline-flex items-center gap-2">免费试用<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></button>
+                    <button class="px-8 py-3.5 rounded-full font-semibold border-2 cursor-pointer transition-all duration-300 hover:border-[var(--accent-1)] inline-flex items-center gap-2" style="border-color:var(--text-muted); color:var(--text-primary);"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4V8z"/></svg>观看演示</button>
+                </div>
+            </div>
+
+            <!-- 右侧视觉：CSS 绘制的工作台模型 -->
+            <div class="flex-1 w-full reveal reveal-d2">
+                <div class="hero-visual">
+                    <!-- 背景装饰 -->
+                    <div class="dot-grid">
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="tech-ring r1"></div>
+                    <div class="tech-ring r2"></div>
+                    <div class="tech-ring r3"></div>
+                    <div class="glow-core"></div>
+                    <div class="line-wave w1"></div>
+                    <div class="line-wave w2"></div>
+                    <div class="line-wave w3"></div>
+
+                    <!-- 浏览器窗口模型 -->
+                    <div class="mock-window">
+                        <div class="mock-titlebar">
+                            <span class="tb-dot"></span>
+                            <span class="tb-dot"></span>
+                            <span class="tb-dot"></span>
+                            <span class="tb-url">oa.zdy.com/workspace</span>
+                        </div>
+                        <div class="mock-body">
+                            <div class="mock-sidebar">
+                                <div class="side-icon active"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+                                <div class="side-icon" style="color:var(--accent-2);"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                                <div class="side-icon" style="color:var(--accent-2);"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+                                <div class="side-icon" style="color:var(--accent-2);"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="6" y1="20" y2="14"/><line x1="12" x2="12" y1="20" y2="8"/><line x1="18" x2="18" y1="20" y2="4"/></svg></div>
+                                <div class="side-icon" style="color:var(--accent-2);"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+                            </div>
+                            <div class="mock-main">
+                                <div class="mock-chart">
+                                    <div class="bar" style="height: 45%;"></div>
+                                    <div class="bar" style="height: 62%;"></div>
+                                    <div class="bar" style="height: 78%;"></div>
+                                    <div class="bar" style="height: 55%;"></div>
+                                    <div class="bar" style="height: 88%;"></div>
+                                    <div class="bar" style="height: 70%;"></div>
+                                    <div class="bar" style="height: 95%;"></div>
+                                </div>
+                                <div class="mock-rows">
+                                    <div class="mock-row">
+                                        <span class="avatar a1"></span>
+                                        <span class="line l1"></span>
+                                        <span class="pill">已通过</span>
+                                    </div>
+                                    <div class="mock-row">
+                                        <span class="avatar a2"></span>
+                                        <span class="line l2"></span>
+                                        <span class="pill">审批中</span>
+                                    </div>
+                                    <div class="mock-row">
+                                        <span class="avatar a3"></span>
+                                        <span class="line l3"></span>
+                                        <span class="pill">已归档</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 浮动卡片 -->
+                    <div class="float-card fc-approve">
+                        <span style="color:var(--accent-1);"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span>
+                        <span>审批已通过<br /><span class="fc-sub">请假申请 · 张三</span></span>
+                    </div>
+                    <div class="float-card fc-stat">
+                        <span class="fc-sub">本月协作效率提升</span>
+                        <span class="fc-num">+80%</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ===== Features 概览 ===== -->
-    <section class="py-20 transition-colors" id="features" style="background:var(--bg-secondary);">
-        <div class="page-width">
+    <section class="py-24 min-h-[640px] flex items-center" id="features" style="background:var(--bg-secondary);">
+        <div class="page-width w-full">
             <div class="text-center max-w-2xl mx-auto mb-14 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold transition-colors" style="color:var(--text-primary);">为现代组织打造的 <span class="text-gradient">智能引擎</span></h2>
-                <p class="text-lg mt-3 transition-colors" style="color:var(--text-secondary);">从流程自动化到数据洞察，一站式覆盖所有办公场景</p>
+                <h2 class="text-3xl md:text-4xl font-bold" style="color:var(--text-primary);">为现代组织打造的 <span class="text-gradient">智能引擎</span></h2>
+                <p class="text-lg mt-3" style="color:var(--text-secondary);">从流程自动化到数据洞察，一站式覆盖所有办公场景</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d1" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">⚙️</div>
-                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">智能审批流</h3>
-                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">基于 AI 的自动化审批引擎，支持复杂分支与动态路由，审批效率提升 80%。</p>
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl reveal reveal-d1" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="15" y="15" width="7" height="7" rx="1.5"/><path d="M9 5.5h6.5a2 2 0 0 1 2 2V15"/><path d="M5.5 9v6.5a2 2 0 0 0 2 2H15"/></svg></div>
+                    <h3 class="text-xl font-semibold" style="color:var(--text-primary);">智能审批流</h3>
+                    <p class="mt-2" style="color:var(--text-secondary);">基于 AI 的自动化审批引擎，支持复杂分支与动态路由，审批效率提升 80%。</p>
                     <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
                 </div>
-                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d2" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">📄</div>
-                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">协同文档</h3>
-                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">多人实时在线编辑，版本历史追溯，评论 @ 协作，让文档沟通零距离。</p>
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl reveal reveal-d2" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>
+                    <h3 class="text-xl font-semibold" style="color:var(--text-primary);">协同文档</h3>
+                    <p class="mt-2" style="color:var(--text-secondary);">多人实时在线编辑，版本历史追溯，评论 @ 协作，让文档沟通零距离。</p>
                     <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
                 </div>
-                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d3" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">🎯</div>
-                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">任务看板</h3>
-                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">可视化任务管理，拖拽式操作，甘特图与燃尽图双视图，进度一目了然。</p>
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl reveal reveal-d3" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+                    <h3 class="text-xl font-semibold" style="color:var(--text-primary);">任务看板</h3>
+                    <p class="mt-2" style="color:var(--text-secondary);">可视化任务管理，拖拽式操作，甘特图与燃尽图双视图，进度一目了然。</p>
                     <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
                 </div>
-                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 reveal reveal-d4" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg transition-all" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);">📊</div>
-                    <h3 class="text-xl font-semibold transition-colors" style="color:var(--text-primary);">数据洞察</h3>
-                    <p class="mt-2 transition-colors" style="color:var(--text-secondary);">实时 BI 报表，自定义仪表盘，AI 辅助分析，让数据驱动决策。</p>
+                <div class="rounded-2xl p-8 backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl reveal reveal-d4" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 text-white shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 8px 24px var(--accent-glow);"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m7 14 4-4 4 3 5-6"/></svg></div>
+                    <h3 class="text-xl font-semibold" style="color:var(--text-primary);">数据洞察</h3>
+                    <p class="mt-2" style="color:var(--text-secondary);">实时 BI 报表，自定义仪表盘，AI 辅助分析，让数据驱动决策。</p>
                     <span class="inline-block mt-4 font-medium transition-transform hover:translate-x-1" style="color:var(--accent-1);">了解更多 →</span>
                 </div>
             </div>
@@ -574,97 +1013,195 @@
     </section>
 
     <!-- ===== 流程自动化 ===== -->
-    <section class="py-20 transition-colors min-h-[500px]" id="process" style="background:var(--bg-primary);">
-        <div class="page-width">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center flow-block min-h-[675px]">
+    <section class="py-24 min-h-[640px] flex items-center" id="process" style="background:var(--bg-primary);">
+        <div class="page-width w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-16 items-center">
                 <div class="reveal">
-                    <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-1); background:var(--node-bg); border-color:var(--node-border);">⚡ 核心引擎</span>
-                    <h2 class="text-3xl md:text-4xl font-bold mt-4 transition-colors" style="color:var(--text-primary);">端到端 <span class="text-gradient">流程自动化</span></h2>
-                    <p class="text-lg mt-4 leading-relaxed transition-colors" style="color:var(--text-secondary);">告别繁琐的纸质流转与邮件审批。可视化设计器让您像搭积木一样构建企业级业务流程，支持条件分支、并行会签与自动超时催办。</p>
+                    <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-1); background:var(--node-bg); border-color:var(--node-border);"<svg class="w-3.5 h-3.5 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg> 核心引擎</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-4" style="color:var(--text-primary);">端到端 <span class="text-gradient">流程自动化</span></h2>
+                    <p class="text-lg mt-4 leading-relaxed" style="color:var(--text-secondary);">告别繁琐的纸质流转与邮件审批。可视化设计器让您像搭积木一样构建企业级业务流程，支持条件分支、并行会签与自动超时催办。</p>
                     <ul class="mt-6 space-y-3">
-                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 拖拽式流程设计，零代码上手</li>
-                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 智能路由与动态审批人匹配</li>
-                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 全链路追踪与效率分析</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 拖拽式流程设计，零代码上手</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 智能路由与动态审批人匹配</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 全链路追踪与效率分析</li>
                     </ul>
+                </div>
+
+                <!-- 右侧视觉：流程模型 -->
+                <div class="reveal reveal-d2">
+                    <div class="flow-visual">
+                        <div class="flow-step">
+                            <div class="step-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></div>
+                            <div>
+                                <div class="step-title">发起申请</div>
+                                <div class="step-desc">员工提交表单，自动校验</div>
+                            </div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step active">
+                            <div class="step-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                            <div>
+                                <div class="step-title">部门审批</div>
+                                <div class="step-desc">AI 匹配审批人 · 实时催办</div>
+                            </div>
+                            <span class="step-badge">进行中</span>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-branch">
+                            <div class="branch-label">◆ 条件分支</div>
+                            <div class="branch-items">
+                                <span>直属上级审批</span>
+                                <span>金额 &gt; 1万 → 总经理</span>
+                                <span>超时 24h 自动催办</span>
+                            </div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="step-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></div>
+                            <div>
+                                <div class="step-title">归档存证</div>
+                                <div class="step-desc">自动归档 · 全链路可追溯</div>
+                            </div>
+                            <span class="step-badge" style="background:linear-gradient(135deg, #10b981, #06b6d4);">已完成</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ===== 低代码平台 ===== -->
-    <section class="py-20 transition-colors" id="lowcode" style="background:var(--bg-secondary);">
-        <div class="page-width">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center low-code-block min-h-[675px]">
-                <div class="reveal reveal-d2 lg:col-start-2">
-                    <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-2); background:var(--node-bg); border-color:var(--node-border);">🛠 敏捷开发</span>
-                    <h2 class="text-3xl md:text-4xl font-bold mt-4 transition-colors" style="color:var(--text-primary);">低代码 <span class="text-gradient">开发平台</span></h2>
-                    <p class="text-lg mt-4 leading-relaxed transition-colors" style="color:var(--text-secondary);">无需专业编码，业务人员也能快速构建应用。从数据模型到页面交互，全链路可视化配置，将应用交付周期从数月缩短至数天。</p>
+    <section class="py-24 min-h-[640px] flex items-center" id="lowcode" style="background:var(--bg-secondary);">
+        <div class="page-width w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+                <!-- 左侧视觉：低代码搭建器模型 -->
+                <div class="reveal lg:order-1">
+                    <div class="lc-visual">
+                        <div class="lc-canvas">
+                            <div class="lc-palette">
+                                <div class="pal-title">组件库</div>
+                                <div class="lc-block"><svg class="w-4 h-4" style="color:var(--accent-2);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h6"/></svg> 表单</div>
+                                <div class="lc-block"><svg class="w-4 h-4" style="color:var(--accent-2);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> 列表</div>
+                                <div class="lc-block"><svg class="w-4 h-4" style="color:var(--accent-2);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></svg> 图表</div>
+                                <div class="lc-block"><svg class="w-4 h-4" style="color:var(--accent-2);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 权限</div>
+                                <div class="lc-block"><svg class="w-4 h-4" style="color:var(--accent-2);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> API</div>
+                            </div>
+                            <div class="lc-stage">
+                                <div class="stage-card">
+                                    <div class="sc-head"><span class="sc-dot"></span> 请假申请 · 表单设计器</div>
+                                    <div class="sc-body">
+                                        <div class="sc-line s1"></div>
+                                        <div class="sc-line s2"></div>
+                                        <div class="sc-line s3"></div>
+                                    </div>
+                                </div>
+                                <div class="stage-card">
+                                    <div class="sc-head"><span class="sc-dot" style="background:var(--accent-2);"></span> 数据模型 · 员工档案</div>
+                                    <div class="sc-body">
+                                        <div class="sc-line s2"></div>
+                                        <div class="sc-line s1"></div>
+                                        <div class="sc-line s3"></div>
+                                    </div>
+                                </div>
+                                <div class="lc-cursor-card"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>拖拽组件到此</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal reveal-d2 lg:order-2">
+                    <span class="inline-block text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-2); background:var(--node-bg); border-color:var(--node-border);"<svg class="w-3.5 h-3.5 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 敏捷开发</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-4" style="color:var(--text-primary);">低代码 <span class="text-gradient">开发平台</span></h2>
+                    <p class="text-lg mt-4 leading-relaxed" style="color:var(--text-secondary);">无需专业编码，业务人员也能快速构建应用。从数据模型到页面交互，全链路可视化配置，将应用交付周期从数月缩短至数天。</p>
                     <ul class="mt-6 space-y-3">
-                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 可视化数据建模与关联</li>
-                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 页面组件库，灵活布局</li>
-                        <li class="flex items-center gap-3 font-medium transition-colors" style="color:var(--text-primary);"><span>✅</span> 权限与流程无缝集成</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 可视化数据建模与关联</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 页面组件库，灵活布局</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 权限与流程无缝集成</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== 智能集成 ===== -->
-    <section class="py-20 transition-colors" id="integration" style="background:var(--bg-primary);">
-        <div class="page-width">
-            <div class="text-center max-w-2xl mx-auto mb-14 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold transition-colors" style="color:var(--text-primary);">无缝 <span class="text-gradient">集成生态</span></h2>
-                <p class="text-lg mt-3 transition-colors" style="color:var(--text-secondary);">连接企业内外部系统，打破数据孤岛，实现自定义协同</p>
-            </div>
+    <!-- ===== AI 深度集成 ===== -->
+    <section class="py-24 min-h-[640px] flex items-center" id="integration" style="background:var(--bg-primary);">
+        <div class="page-width w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+                <!-- 左侧文字区 -->
+                <div class="reveal">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border" style="color:var(--accent-1); background:var(--node-bg); border-color:var(--node-border);"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg> AI 智能引擎</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-4" style="color:var(--text-primary);">AI <span class="text-gradient">深度集成</span></h2>
+                    <p class="text-lg mt-4 leading-relaxed" style="color:var(--text-secondary);">大模型能力融入每个办公环节，让 AI 成为每位员工的智能副驾驶——从发起审批到生成报告，动口不动手。</p>
+                    <ul class="mt-6 space-y-3">
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> OA Copilot：一句话发起审批、查询制度</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 审批智能摘要与风险提示</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 自然语言生成表单与流程</li>
+                        <li class="flex items-center gap-3 font-medium" style="color:var(--text-primary);"><svg class="w-5 h-5 flex-shrink-0" style="color:var(--accent-1);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 大模型灵活接入，数据不出边界</li>
+                    </ul>
+                </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-5">
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d1" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">📧</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">企业邮箱</h4>
-                </div>
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d2" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">💬</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">飞书 / 钉钉</h4>
-                </div>
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d3" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">🗄️</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">ERP / CRM</h4>
-                </div>
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d4" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">☁️</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">云存储</h4>
-                </div>
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d5" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">🤖</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">AI 大模型</h4>
-                </div>
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d1" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">🔐</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">SSO / IAM</h4>
-                </div>
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d2" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">📊</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">BI 工具</h4>
-                </div>
-                <div class="rounded-2xl p-6 text-center backdrop-blur-sm border transition-all duration-300 hover:-translate-y-2.5 hover:border-[var(--accent-1)] reveal reveal-d3" style="background:var(--bg-card); border-color:var(--border-glass); box-shadow:var(--shadow-card);">
-                    <span class="text-4xl block mb-2">📱</span>
-                    <h4 class="font-semibold transition-colors" style="color:var(--text-primary);">企业微信</h4>
+                <!-- 右侧视觉区：AI 神经网络 + Copilot 对话模型 -->
+                <div class="reveal reveal-d2">
+                    <div class="ai-visual">
+                        <!-- 神经网络装饰背景 -->
+                        <svg class="ai-net" viewBox="0 0 560 420" fill="none">
+                            <g stroke="#2b7cff" stroke-opacity="0.18" stroke-width="1.2">
+                                <path d="M40 80 L160 150 L300 60 L440 140"/>
+                                <path d="M60 300 L180 240 L320 330 L470 260"/>
+                                <path d="M160 150 L180 240"/>
+                                <path d="M440 140 L470 260"/>
+                                <path d="M300 60 L320 330" stroke-dasharray="4 6"/>
+                                <path d="M40 80 L60 300"/>
+                                <path d="M440 140 L180 240" stroke-dasharray="4 6"/>
+                            </g>
+                            <g fill="#2b7cff" fill-opacity="0.35">
+                                <circle cx="40" cy="80" r="5"/><circle cx="160" cy="150" r="7"/><circle cx="300" cy="60" r="5"/>
+                                <circle cx="440" cy="140" r="7"/><circle cx="60" cy="300" r="5"/><circle cx="180" cy="240" r="6"/>
+                                <circle cx="320" cy="330" r="5"/><circle cx="470" cy="260" r="6"/>
+                            </g>
+                            <g fill="#06b6d4" fill-opacity="0.45">
+                                <circle cx="160" cy="150" r="3"><animate attributeName="r" values="3;6;3" dur="3s" repeatCount="indefinite"/></circle>
+                                <circle cx="440" cy="140" r="3"><animate attributeName="r" values="3;6;3" dur="3s" begin="1.5s" repeatCount="indefinite"/></circle>
+                            </g>
+                        </svg>
+
+                        <!-- Copilot 对话面板 -->
+                        <div class="ai-panel">
+                            <div class="ai-head">
+                                <span class="ai-logo"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg></span>
+                                <span class="ai-title">OA Copilot 智能助手</span>
+                                <span class="ai-status"><i></i>在线</span>
+                            </div>
+                            <div class="ai-chat">
+                                <div class="bubble user">帮我发起一个请假审批，本周五休年假一天</div>
+                                <div class="bubble ai">
+                                    <span class="ai-tag"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg>Copilot</span><br />
+                                    已创建《请假申请》草稿并提交审批。<br />流程路由：直属上级审批 → HR 备案。<br />余额核验通过：年假剩余 4 天。
+                                </div>
+                            </div>
+                            <div class="ai-chips">
+                                <span>撰写本周周报</span>
+                                <span>查询报销进度</span>
+                                <span>总结会议纪要</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== Footer (丰富内容) ===== -->
-    <footer class="border-t transition-colors pt-12 pb-6" style="background:var(--bg-primary); border-color:var(--footer-border);">
+    <!-- ===== Footer ===== -->
+    <footer class="border-t pt-12 pb-6" style="background:var(--bg-primary); border-color:var(--footer-border);">
         <div class="page-width">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-8 border-b transition-colors" style="border-color:var(--footer-border);">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-8 border-b" style="border-color:var(--footer-border);">
                 <!-- 品牌介绍 -->
                 <div class="lg:col-span-2">
-                    <div class="flex items-center gap-2.5 font-bold text-xl tracking-tight mb-3 transition-colors" style="color:var(--text-primary);">
-                        <span class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-lg" style="background:linear-gradient(135deg, var(--accent-1), var(--accent-2)); box-shadow:0 4px 16px var(--accent-glow);">⚡</span>
+                    <div class="flex items-center gap-2.5 font-bold text-xl tracking-tight mb-3" style="color:var(--text-primary);">
+                        <span class="flex items-center" style="color:var(--accent-1);"><svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path fill="#2b7cff" fill-opacity=".12" d="M12 2.5 8.4 4.5 12 6.5 15.6 4.5Z"/><path fill="#2b7cff" fill-opacity=".12" d="M7.5 5 3.9 7 7.5 9 11.1 7Z"/><path fill="#2b7cff" fill-opacity=".12" d="M16.5 5 12.9 7 16.5 9 20.1 7Z"/><path fill="#2b7cff" fill-opacity=".12" d="M12 7.5 8.4 9.5 12 11.5 15.6 9.5Z"/><path d="M3.5 7.5 7.1 9.5 7.1 13.5 3.5 11.5Z"/><path d="M8 10 11.6 12 11.6 16 8 14Z"/><path d="M3.5 12.5 7.1 14.5 7.1 18.5 3.5 16.5Z"/><path d="M8 15 11.6 17 11.6 21 8 19Z"/><path d="M20.6 7.5 16.9 9.5 16.9 13.5 20.6 11.5Z"/><path d="M16.1 10 12.4 12 12.4 16 16.1 14Z"/><path d="M20.6 12.5 16.9 14.5 16.9 18.5 20.6 16.5Z"/><path d="M16.1 15 12.4 17 12.4 21 16.1 19Z"/></svg></span>
                         <span>自定义OA协同中台</span>
                     </div>
-                    <p class="text-sm leading-relaxed max-w-sm transition-colors" style="color:var(--text-secondary);">专注企业数字化协同低代码OA平台研发，助力组织降本增效。</p>
+                    <p class="text-sm leading-relaxed max-w-sm" style="color:var(--text-secondary);">专注企业数字化协同低代码OA平台研发，助力组织降本增效。</p>
                     <div class="flex gap-4 mt-4">
                         <a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">隐私政策</a>
                         <a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">用户协议</a>
@@ -673,7 +1210,7 @@
 
                 <!-- 产品中心 -->
                 <div>
-                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3 transition-colors" style="color:var(--text-primary);">产品中心</h5>
+                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3" style="color:var(--text-primary);">产品中心</h5>
                     <ul class="space-y-2">
                         <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">核心功能</a></li>
                         <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">低代码平台</a></li>
@@ -683,7 +1220,7 @@
 
                 <!-- 解决方案 -->
                 <div>
-                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3 transition-colors" style="color:var(--text-primary);">解决方案</h5>
+                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3" style="color:var(--text-primary);">解决方案</h5>
                     <ul class="space-y-2">
                         <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">按行业划分</a></li>
                         <li><a href="#" class="text-sm transition-colors footer-link-hover" style="color:var(--text-muted);">客户案例</a></li>
@@ -692,16 +1229,16 @@
 
                 <!-- 联系我们 -->
                 <div>
-                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3 transition-colors" style="color:var(--text-primary);">联系我们</h5>
+                    <h5 class="font-semibold text-sm uppercase tracking-wider mb-3" style="color:var(--text-primary);">联系我们</h5>
                     <ul class="space-y-2 text-sm" style="color:var(--text-muted);">
-                        <li>📞 400-xxxx-888</li>
-                        <li>✉️ contact@zloa.com</li>
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 400-xxxx-888</li>
+                        <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> contact@zloa.com</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- 底部版权信息：居中，竖线分隔，年份动态 -->
-            <div class="flex flex-wrap items-center justify-center gap-1 md:gap-3 pt-6 text-xs transition-colors" style="color:var(--text-muted);">
+            <!-- 底部版权信息 -->
+            <div class="flex flex-wrap items-center justify-center gap-1 md:gap-3 pt-6 text-xs" style="color:var(--text-muted);">
                 <span>© <span id="footerYear"></span> 自定义OA协同中台 版权所有</span>
                 <span class="hidden sm:inline">|</span>
                 <span>沪ICP备xxxxxxxx号</span>
@@ -719,34 +1256,7 @@
             'use strict';
 
             // =====================
-            // 1. 主题切换
-            // =====================
-            const toggle = document.getElementById('themeToggle');
-            const html = document.documentElement;
-            const STORAGE_KEY = 'oa-theme';
-
-            function setTheme(theme) {
-                html.setAttribute('data-theme', theme);
-                localStorage.setItem(STORAGE_KEY, theme);
-            }
-
-            function getStoredTheme() {
-                return localStorage.getItem(STORAGE_KEY) || 'light';
-            }
-
-            setTheme(getStoredTheme());
-
-            toggle.addEventListener('click', function() {
-                const current = html.getAttribute('data-theme');
-                const next = current === 'light' ? 'dark' : 'light';
-                setTheme(next);
-                if (window.particleSystem) {
-                    window.particleSystem.updateColors();
-                }
-            });
-
-            // =====================
-            // 2. 粒子背景 (Canvas)
+            // 1. 粒子背景 (Canvas)
             // =====================
             const canvas = document.getElementById('particleCanvas');
             const ctx = canvas.getContext('2d');
@@ -789,11 +1299,9 @@
                         this.y = Math.min(Math.max(this.y, 0), canvas.height); }
                 }
                 draw() {
-                    const theme = html.getAttribute('data-theme');
-                    const color = theme === 'dark' ? '129, 140, 248' : '79, 70, 229';
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${color}, ${this.opacity})`;
+                    ctx.fillStyle = 'rgba(43, 124, 255, ' + this.opacity + ')';
                     ctx.fill();
                 }
             }
@@ -804,8 +1312,6 @@
             }
 
             function drawLines() {
-                const theme = html.getAttribute('data-theme');
-                const lineColor = theme === 'dark' ? '129, 140, 248' : '79, 70, 229';
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
@@ -816,7 +1322,7 @@
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(${lineColor}, ${alpha})`;
+                            ctx.strokeStyle = 'rgba(43, 124, 255, ' + alpha + ')';
                             ctx.lineWidth = 0.6;
                             ctx.stroke();
                         }
@@ -842,14 +1348,12 @@
                 mouse.y = null; }
 
             const particleSystem = {
-                updateColors: function() {},
                 resize: function() {
                     resizeCanvas();
                     for (const p of particles) { p.x = Math.random() * canvas.width;
                         p.y = Math.random() * canvas.height; }
                 }
             };
-            window.particleSystem = particleSystem;
 
             function initCanvas() {
                 resizeCanvas();
@@ -869,31 +1373,12 @@
             else window.addEventListener('load', initCanvas);
 
             // =====================
-            // 3. 数字滚动 & Reveal 动画
+            // 2. Reveal 动画
             // =====================
             const observer = new IntersectionObserver((entries) => {
                 for (const entry of entries) {
                     if (entry.isIntersecting) {
                         const el = entry.target;
-                        if (el.classList.contains('count')) {
-                            const target = parseFloat(el.getAttribute('data-target'));
-                            const isFloat = target % 1 !== 0;
-                            const duration = 1800;
-                            const startTime = performance.now();
-
-                            function updateCounter(currentTime) {
-                                const elapsed = currentTime - startTime;
-                                const progress = Math.min(elapsed / duration, 1);
-                                const eased = 1 - Math.pow(1 - progress, 3);
-                                const currentVal = eased * target;
-                                el.textContent = isFloat ? currentVal.toFixed(1) : Math.floor(currentVal);
-                                if (progress < 1) requestAnimationFrame(updateCounter);
-                                else el.textContent = isFloat ? target.toFixed(1) : target;
-                            }
-                            requestAnimationFrame(updateCounter);
-                            observer.unobserve(el);
-                            continue;
-                        }
                         if (el.classList.contains('reveal')) {
                             el.classList.add('revealed');
                             observer.unobserve(el);
@@ -902,10 +1387,10 @@
                 }
             }, { threshold: 0.15 });
 
-            document.querySelectorAll('.count, .reveal').forEach(el => observer.observe(el));
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
             // =====================
-            // 4. 移动端菜单
+            // 3. 移动端菜单
             // =====================
             const mobileBtn = document.getElementById('mobileMenuBtn');
             const mobileNav = document.getElementById('mobileNav');
@@ -922,7 +1407,7 @@
             });
 
             // =====================
-            // 5. 动态更新版权年份
+            // 4. 动态更新版权年份
             // =====================
             const yearSpan = document.getElementById('footerYear');
             if (yearSpan) {
